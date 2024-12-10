@@ -1,0 +1,15 @@
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/bin/Debug/net8.0/SportTeamManager
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/bin/Debug/net8.0/SportTeamManager.deps.json
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/bin/Debug/net8.0/SportTeamManager.runtimeconfig.json
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/bin/Debug/net8.0/SportTeamManager.dll
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/bin/Debug/net8.0/SportTeamManager.pdb
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/SportTeamManager.GeneratedMSBuildEditorConfig.editorconfig
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/SportTeamManager.AssemblyInfoInputs.cache
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/SportTeamManager.AssemblyInfo.cs
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/SportTeamManager.csproj.CoreCompileInputs.cache
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/SportTeamManager.sourcelink.json
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/SportTeamManager.dll
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/refint/SportTeamManager.dll
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/SportTeamManager.pdb
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/SportTeamManager.genruntimeconfig.cache
+/home/szymonh/RiderProjects/SportTeamManager/SportTeamManager/obj/Debug/net8.0/ref/SportTeamManager.dll

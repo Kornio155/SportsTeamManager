@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "SportTeamManager/1.0.0": {
+        "runtime": {
+          "SportTeamManager.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SportTeamManager/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
