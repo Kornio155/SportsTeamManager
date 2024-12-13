@@ -5,9 +5,9 @@ using System.Runtime.InteropServices.JavaScript;
 
 public class Player
 {
-    private string Name { get; set; }
-    private string Position { get; set; }
-    private int Score { get; set; }
+    public string Name { get; set; }
+    public string Position { get; set; }
+    public int Score { get; set; }
 
 
     public Player(string name, string position, int score)
@@ -42,7 +42,6 @@ public class Team
 
     public static void AddPlayer(string addName, string addPosition, string tryAddScore)
     {
-
         
         bool canYouAdd = int.TryParse(tryAddScore, out int addScore);
         
@@ -54,7 +53,7 @@ public class Team
 
         }
 
-        if (addPosition == "")
+        else if(addPosition == "")
         {
             Console.WriteLine("Nie podano pozycji zawodnika. Proszę podać pozycje: ");
             addPosition = Console.ReadLine();
@@ -62,23 +61,18 @@ public class Team
 
         }
 
-        if (canYouAdd == false)
+        else if(canYouAdd == false)
         {
             Console.WriteLine("Podano nieprawidłowy wynik. Podaj wynik ponownie");
             tryAddScore = Console.ReadLine();
             AddPlayer(addName, addPosition, tryAddScore);
         }
 
-        playersList.Add(new Player(addName, addPosition, addScore));
-        Console.WriteLine(playersList);
+        else
+        {
+            playersList.Add(new Player(addName, addPosition, addScore));
+        }
         
-        // tworzy nowego zawodnika i dodaje go. Podaje imie, pozycje, początkowy wynik
-        // pomysł: metoda AddPlayer wywołuje konstruktor klasy Player tworząc nowego zawodnika po czym dodaje go do listy playerList
-        
-        // metoda sprawdza czy wszystkie dane zostały wpisane podczas dodawania: 
-        // jeśli nie to podaje co trzeba jeszcze podać i wyświetla do tego okno
-        
-        // program pyta się o pozycje jeśli nic nie zostanie wpisane ma ustawić domyślną pozycje: default position  reserve player
         
     }
 
@@ -147,7 +141,6 @@ internal class Program
                     Team.AddPlayer(addName, addPosition, tryAddScore);
                     break;
             }
-
             Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: TAP, TDP, TSS, TAPs, end");
             option = Console.ReadLine();
             
