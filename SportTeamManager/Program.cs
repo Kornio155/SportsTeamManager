@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.ComponentModel.Design;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices.JavaScript;
 
 public class Player
@@ -37,7 +38,7 @@ public class Player
 
 public class Team
 {
-    private static List<Player> playersList = new List<Player>();
+    public static List<Player> playersList = new List<Player>();
 
 
     public static void AddPlayer(string addName, string addPosition, string tryAddScore)
@@ -71,6 +72,7 @@ public class Team
         else
         {
             playersList.Add(new Player(addName, addPosition, addScore));
+            Console.WriteLine("Zawodnik został dodany do drużyny.");
         }
         
         
@@ -79,16 +81,27 @@ public class Team
 
     public static void DeletePlayer()
     {
-        // usuwa zawodnika 
+        Console.WriteLine("Podaj imie zawodnika, którego chcesz usunąć: ");
+        string nameInput = Console.ReadLine();
+        playersList.RemoveAll(x => x.Name == nameInput); // funkcja zaproponowana przez rider: x przyjmuje element listy po czym funkcja RemoveAll usuwa element gdzie imie zawodnika jest takie samo jak imie podane przez użytkownika
+        Console.WriteLine("Usunięto zawodnika!");
     }
 
     public static void ShowStatistics()
     {
-        
+        int teamPoints = playersList.Aggregate(0,(acc, Score) => acc + Score.Score);
+        Console.WriteLine($"Wszystkie punkty zdobyte przez drużynę: {teamPoints}");
+        int bestScorePlayer = playersList.Max(acc => acc.Score);
+        Console.WriteLine($"Najlepiej punkutjący zawodnik: {bestScorePlayer}");
+        int worstScorePlayer = playersList.Min(acc => acc.Score);
+        Console.WriteLine($"Najgorzej punktujący zawodnik: {worstScorePlayer}");
     }
 
     public static void AveragePoints()
     {
+        int teamPoints = playersList.Aggregate(0,(acc, Score) => acc + Score.Score);
+        int averageTeamPointsPoints = teamPoints / playersList.Count;
+        Console.WriteLine($"Średnie punkty na zawodnika: {averageTeamPointsPoints}");
         
     }
 
@@ -106,14 +119,7 @@ internal class Program
     {
         
         /*
-         *
          *  funkcja filtrowania zawodników po: punktach, pozycji, po drużynie?, może coś więcej
-         *
-         *
-         *
-         *
-         *
-         * 
          */
         
         Console.WriteLine("To program do zarządzania drużyną.");
@@ -140,9 +146,24 @@ internal class Program
                     string tryAddScore = Console.ReadLine();
                     Team.AddPlayer(addName, addPosition, tryAddScore);
                     break;
+                
+                case "TDP":
+                    Team.DeletePlayer();
+                    break;
+                
+                case "TSS":
+                    Team.ShowStatistics();
+                    break;
+                case "TAPs":
+                    Team.AveragePoints();
+                    break;
             }
+            
+            
             Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: TAP, TDP, TSS, TAPs, end");
             option = Console.ReadLine();
+            
+            
             
             
         }
