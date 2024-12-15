@@ -3,6 +3,7 @@
 using System.ComponentModel.Design;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices.JavaScript;
+using System.Xml;
 
 public class Player
 {
@@ -18,20 +19,32 @@ public class Player
         Score = score;
     }
 
-    public void UpdateScore()
+    public void UpdateScore(string inputScore)
     {
+        bool tryParseScore = int.TryParse(inputScore, out int score);
+
+        if (!tryParseScore)
+        {
+            Console.WriteLine("Podano nieprawidłowy wynik. Podaj wynik ponownie: ");
+            inputScore = Console.ReadLine();
+            UpdateScore(inputScore);
+        }
+        else
+        {
+            Score = score;
+        }
         
     }
 
-    public void ChangePosition()
+    public void ChangePosition(string inputPosition)
     {
-        
-    }
-
-    static public void FindPlayerByPosition()
-    {
-        // po wprowadzeniu pozycji system wyświetla wszystkich zawodników grających na tej pozycji
-        // jeśli nie ma zawodników na danej pozycji to pokazuje komunikat: "Brak zawodników na tej pozycji"
+        if (inputPosition == "")
+        {
+            Console.WriteLine("Podano pustą pozycję. Wprowadź pozycję ponownie: ");
+            inputPosition =  Console.ReadLine();
+            ChangePosition(inputPosition);
+        }
+        Position = inputPosition;
     }
 
 }
@@ -95,6 +108,13 @@ public class Team
         Console.WriteLine($"Najlepiej punkutjący zawodnik: {bestScorePlayer}");
         int worstScorePlayer = playersList.Min(acc => acc.Score);
         Console.WriteLine($"Najgorzej punktujący zawodnik: {worstScorePlayer}");
+        
+        Console.WriteLine("Zawodnicy drużyny");
+        foreach (var player in playersList)
+        {
+            Console.WriteLine($"Imie: {player.Name}, Pozycja: {player.Position}, Wynik: {player.Score}");
+        }
+        
     }
 
     public static void AveragePoints()
@@ -105,6 +125,25 @@ public class Team
         
     }
 
+    public static void FindPlayerByPosition(string inputPosition)
+    {
+        bool isPositionExists = Team.playersList.Any(player => player.Position == inputPosition);
+
+        if (!isPositionExists)
+        {
+            Console.WriteLine($"Nikt nie gra na pozycji: {inputPosition}.");
+        }
+
+        else
+        {
+            var filteredPlayers = playersList.FindAll(player => player.Position == inputPosition);
+            Console.WriteLine($"Zawodnicy grający na pozycji: {inputPosition}");
+            foreach (var player in filteredPlayers)
+            {
+                Console.WriteLine($"Imie: {player.Name}, Pozycja: {player.Position}, Wynik: {player.Score}");
+            }
+        }
+    }
 
 
 }
@@ -118,12 +157,8 @@ internal class Program
     public static void Main(string[] args)
     {
         
-        /*
-         *  funkcja filtrowania zawodników po: punktach, pozycji, po drużynie?, może coś więcej
-         */
-        
         Console.WriteLine("To program do zarządzania drużyną.");
-        Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: TAP, TDP, TSS, TAPs, end");
+        Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: add player, delete player, show statistics, average points, find player, modify player, filter player,end");
         string option = Console.ReadLine();
         while (true)
         {
@@ -135,7 +170,7 @@ internal class Program
 
             switch (option)
             {
-                case "TAP":
+                case "add player":
                     Console.WriteLine("Proszę podać imie zawodnika");
                     string addName = Console.ReadLine();
                     
@@ -147,27 +182,88 @@ internal class Program
                     Team.AddPlayer(addName, addPosition, tryAddScore);
                     break;
                 
-                case "TDP":
+                case "delete player":
                     Team.DeletePlayer();
                     break;
                 
-                case "TSS":
+                case "show statistics":
                     Team.ShowStatistics();
                     break;
-                case "TAPs":
+                
+                case "average points":
                     Team.AveragePoints();
+                    break;
+                
+                case "find player":
+                    Console.WriteLine("Podaj pozycje jaką chcesz wyszukać: ");
+                    Team.FindPlayerByPosition(inputPosition: Console.ReadLine());
+                    break;
+                
+                
+                case "modify player":
+                    Console.WriteLine("Podaj imie zawodnika: ");
+                    ModifyPlayer(inputName: Console.ReadLine());
+                    break;
+                
+                case "filter player":
+                    
                     break;
             }
             
             
-            Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: TAP, TDP, TSS, TAPs, end");
+            Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: add player, delete player, show statistics, average points, find player, modify player, end (aby zakończyć działanie programu)");
             option = Console.ReadLine();
-            
-            
-            
-            
+
+
+            void ModifyPlayer(string inputName)
+            {
+                bool isPlayerExists = Team.playersList.Any(player => player.Name == inputName);
+
+                if (!isPlayerExists)
+                {
+                    Console.WriteLine($"Nie istnieje taki zawodnik {inputName}. Podaj inne imie zawodnika: ");
+                    inputName = Console.ReadLine();
+                    ModifyPlayer(inputName);
+                }
+
+                else
+                {
+                    int player = Team.playersList.FindIndex(0, player => player.Name == inputName);
+                    while (true)
+                    {
+                        Console.WriteLine("Podaj jaką co chcesz zmienić: score, position, end (aby zakończyć edycje zawodnika)");
+                        string typeOfModificaton = Console.ReadLine();
+                        
+                        if (typeOfModificaton == "end" || typeOfModificaton == "")
+                        {
+                            break;
+                        }
+                        
+
+                        switch (typeOfModificaton) 
+                        {
+                            case "score":
+                                Console.WriteLine("Podaj wynik zawodnika: ");
+                                string inputScore = Console.ReadLine();
+                                Team.playersList[player].UpdateScore(inputScore);
+                                break;
+
+
+                            case "position":
+                                Console.WriteLine("Podaj pozycje zawodnika: ");
+                                string inputPosition = Console.ReadLine();
+                                Team.playersList[player].ChangePosition(inputPosition);
+                                break;
+                        }
+                    }
+                }
+            }
+
         }
-        
-        
+
+
+
     }
+        
+        
 }
