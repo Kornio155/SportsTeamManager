@@ -5,6 +5,33 @@ using System.Linq.Expressions;
 using System.Runtime.InteropServices.JavaScript;
 using System.Xml;
 
+public class Check
+{
+    public static int CheckIsInt(string inputScore)
+    {
+        while (true)
+        {
+            bool tryParseScore = int.TryParse(inputScore, out int score);
+
+            if (!tryParseScore)
+            {
+                Console.WriteLine("Podano nieprawidłowy wynik. Podaj wynik ponownie: ");
+                inputScore = Console.ReadLine();
+            }
+            else
+            {
+                return score;
+                break;
+            }
+            
+        }
+
+    }
+}
+
+
+
+
 public class Player
 {
     public string Name { get; set; }
@@ -19,21 +46,9 @@ public class Player
         Score = score;
     }
 
-    public void UpdateScore(string inputScore)
+    public void UpdateScore(int score)
     {
-        bool tryParseScore = int.TryParse(inputScore, out int score);
-
-        if (!tryParseScore)
-        {
-            Console.WriteLine("Podano nieprawidłowy wynik. Podaj wynik ponownie: ");
-            inputScore = Console.ReadLine();
-            UpdateScore(inputScore);
-        }
-        else
-        {
-            Score = score;
-        }
-        
+        Score = score;
     }
 
     public void ChangePosition(string inputPosition)
@@ -54,16 +69,14 @@ public class Team
     public static List<Player> playersList = new List<Player>();
 
 
-    public static void AddPlayer(string addName, string addPosition, string tryAddScore)
+    public static void AddPlayer(string addName, string addPosition, int addScore)
     {
-        
-        bool canYouAdd = int.TryParse(tryAddScore, out int addScore);
         
         if (addName == "")
         {
             Console.WriteLine("Nie podano imienia zawodnika. Proszę podać imie zawodnika: ");
             addName = Console.ReadLine();
-            AddPlayer(addName, addPosition, tryAddScore);
+            AddPlayer(addName, addPosition, addScore);
 
         }
 
@@ -71,15 +84,8 @@ public class Team
         {
             Console.WriteLine("Nie podano pozycji zawodnika. Proszę podać pozycje: ");
             addPosition = Console.ReadLine();
-            AddPlayer(addName, addPosition, tryAddScore);
+            AddPlayer(addName, addPosition, addScore);
 
-        }
-
-        else if(canYouAdd == false)
-        {
-            Console.WriteLine("Podano nieprawidłowy wynik. Podaj wynik ponownie");
-            tryAddScore = Console.ReadLine();
-            AddPlayer(addName, addPosition, tryAddScore);
         }
 
         else
@@ -146,6 +152,32 @@ public class Team
     }
 
 
+    public static void FilterPlayers(string inputFilter)
+    {
+        switch (inputFilter)
+        {
+            case "score":
+                Console.Write("Podaj najmniejszy wynik zawodnika: ");
+                var lowScoreInput = Console.ReadLine();
+                var lowScore = Check.CheckIsInt(lowScoreInput);
+                
+                Console.Write("Podaj największy wynik zawodnika: ");
+                var maxScoreInput = Console.ReadLine();
+                var maxScore = Check.CheckIsInt(lowScoreInput);
+                break;
+            
+            case "position":
+                break;
+            
+            case "both":
+                break;
+            
+            default:
+                Console.WriteLine("nie wybrano filtrowania.");
+                break;
+        }
+    }
+
 }
 
 
@@ -156,7 +188,6 @@ internal class Program
 {
     public static void Main(string[] args)
     {
-        
         Console.WriteLine("To program do zarządzania drużyną.");
         Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: add player, delete player, show statistics, average points, find player, modify player, filter player,end");
         string option = Console.ReadLine();
@@ -179,7 +210,9 @@ internal class Program
                     
                     Console.WriteLine("Proszę podać wynik zawodnika");
                     string tryAddScore = Console.ReadLine();
-                    Team.AddPlayer(addName, addPosition, tryAddScore);
+                    var addScore = Check.CheckIsInt(tryAddScore);
+                    
+                    Team.AddPlayer(addName, addPosition, addScore);
                     break;
                 
                 case "delete player":
@@ -213,8 +246,7 @@ internal class Program
             
             Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: add player, delete player, show statistics, average points, find player, modify player, end (aby zakończyć działanie programu)");
             option = Console.ReadLine();
-
-
+            
             void ModifyPlayer(string inputName)
             {
                 bool isPlayerExists = Team.playersList.Any(player => player.Name == inputName);
@@ -245,7 +277,8 @@ internal class Program
                             case "score":
                                 Console.WriteLine("Podaj wynik zawodnika: ");
                                 string inputScore = Console.ReadLine();
-                                Team.playersList[player].UpdateScore(inputScore);
+                                var score = Check.CheckIsInt(inputScore);
+                                Team.playersList[player].UpdateScore(score);
                                 break;
 
 
@@ -264,6 +297,6 @@ internal class Program
 
 
     }
-        
-        
+
+    
 }
