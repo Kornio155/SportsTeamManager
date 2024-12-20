@@ -64,13 +64,21 @@ internal class Program
                     break;
                 
                 case "filter player":
-                    
+                    Console.WriteLine("Podaj po czym chcesz filtrować: Pozycja: position, Punkty: score, Punkty i pozycja: both");
+                    var filterOption = Console.ReadLine();
+                    Team.FilterPlayers(filterOption);
                     break;
             }
             
             
-            Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: add player, delete player, show statistics, average points, find player, modify player, end (aby zakończyć działanie programu)");
+            Console.WriteLine("Wprowadź operacje jaką chcesz dokonąć: add player, delete player, show statistics, average points, find player, modify player, filter player, end (aby zakończyć działanie programu)");
             option = Console.ReadLine();
+            
+            
+            
+            
+            
+            
             
             void ModifyPlayer(string inputName)
             {

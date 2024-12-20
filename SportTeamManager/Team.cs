@@ -99,13 +99,55 @@ public class Team
                 
                 Console.Write("Podaj największy wynik zawodnika: ");
                 var maxScoreInput = Console.ReadLine();
-                var maxScore = Check.CheckIsInt(lowScoreInput);
+                var maxScore = Check.CheckIsInt(maxScoreInput);
+        
+                var filteredScore = playersList.FindAll(player => player.Score >= lowScore && player.Score <= maxScore );
+                foreach (var player in filteredScore)
+                {
+                    Console.WriteLine($"Imie: {player.Name}, Pozycja: {player.Position}, Wynik: {player.Score}");
+                }
                 break;
             
             case "position":
+                Console.Write("Podaj pozycje po jakiej chcesz filtrować: ");
+                string inputPosition = Console.ReadLine();
+                FindPlayerByPosition(inputPosition); 
                 break;
             
             case "both":
+                
+                Console.Write("Podaj najmniejszy wynik zawodnika: ");
+                var lowScoreInputBoth = Console.ReadLine();
+                var lowScoreBoth = Check.CheckIsInt(lowScoreInputBoth);
+                
+                Console.Write("Podaj największy wynik zawodnika: ");
+                var maxScoreInputBoth = Console.ReadLine();
+                var maxScoreBoth = Check.CheckIsInt(maxScoreInputBoth);
+        
+                var filteredScoreBoth = playersList.FindAll(player => player.Score >= lowScoreBoth && player.Score <= maxScoreBoth );
+                
+                
+                Console.Write("Podaj pozycje zawodnika: ");
+                var inputPositionBoth = Console.ReadLine();
+                bool isPositionExists = Team.playersList.Any(player => player.Position == inputPositionBoth);
+
+                if (!isPositionExists)
+                {
+                    Console.WriteLine($"Nikt nie gra na pozycji: {inputPositionBoth}.");
+                    break;
+                }
+
+                else
+                {
+                    var filteredPlayers = filteredScoreBoth.FindAll(player => player.Position == inputPositionBoth);
+                    foreach (var player in filteredPlayers)
+                    {
+                        Console.WriteLine($"Imie: {player.Name}, Pozycja: {player.Position}, Wynik: {player.Score}");
+                    }
+                }
+                
+                
+                
                 break;
             
             default:
@@ -113,5 +155,6 @@ public class Team
                 break;
         }
     }
+    
 
 }
